@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en-US" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.title | default: site.github.repository_name }}</title> <!--在seo引入前定义title标签-->
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?">
+
+<!--
+  Begin Jekyll SEO tag v2.8.0 seo引入的模板
+<title>test2 | Html Css Demo4</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="test2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="https://htmlcssdemo.showsome.fun/" />
+<meta property="og:description" content="https://htmlcssdemo.showsome.fun/" />
+<link rel="canonical" href="https://htmlcssdemo.showsome.fun/" />
+<meta property="og:url" content="https://htmlcssdemo.showsome.fun/" />
+<meta property="og:site_name" content="Html Css Demo4" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="test2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"https://htmlcssdemo.showsome.fun/","headline":"test2","name":"Html Css Demo4","url":"https://htmlcssdemo.showsome.fun/"}</script>
+End Jekyll SEO tag -->
+  {% seo %}
+  <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+
+ {% if comments %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .comment-section {
+      width: 50%;
+      margin: auto;
+    }
+
+    .add-comment {
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      display: block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .comment {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .comment .replies {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+
+    .reply-btn {
+      background-color: #28a745;
+      padding: 5px 10px;
+      color: white;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .reply-btn:hover {
+      background-color: #218838;
+    }
+
+    .reply-form {
+      margin-top: 10px;
+    }
+
+    .toggle-replies {
+      cursor: pointer;
+      color: #007BFF;
+      text-decoration: underline;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+  </style>
+ <script>
+  let comments = [];
+
+  function addComment() {
+    const commentText = document.getElementById('commentText').value;
+    if (commentText) {
+      comments.push({ text: commentText, replies: [] });
+      document.getElementById('commentText').value = '';
+      renderComments();
+    }
+  }
+
+  function addReply(index, replyText) {
+    if (replyText) {
+      comments[index].replies.push(replyText);
+      renderComments();
+    }
+  }
+
+  function renderComments() {
+    const commentsDiv = document.getElementById('comments');
+    commentsDiv.innerHTML = '';
+
+    comments.forEach((comment, index) => {
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'comment';
+      commentDiv.innerHTML = `
+            <p>${comment.text}</p>
+            <button class="reply-btn" onclick="showReplyForm(${index})">回复</button>
+            <div class="reply-form" id="replyForm${index}" style="display: none;">
+                <textarea id="replyText${index}" placeholder="添加回复"></textarea>
+                <button onclick="submitReply(${index})">提交回复</button>
+            </div>
+            <div class="replies" id="replies${index}">
+                ${comment.replies.map(reply => `<p>${reply}</p>`).join('')}
+            </div>
+        `;
+
+      if (index === 0 && comment.replies.length > 0) {
+        const toggleReplies = document.createElement('span');
+        toggleReplies.className = 'toggle-replies';
+        toggleReplies.textContent = '展开/折叠回复';
+        toggleReplies.onclick = () => toggleRepliesVisibility(index);
+        commentDiv.appendChild(toggleReplies);
+      }
+
+      commentsDiv.appendChild(commentDiv);
+    });
+  }
+
+  function showReplyForm(index) {
+    document.getElementById(`replyForm${index}`).style.display = 'block';
+  }
+
+  function submitReply(index) {
+    const replyText = document.getElementById(`replyText${index}`).value;
+    if (replyText) {
+      addReply(index, replyText);
+      document.getElementById(`replyForm${index}`).style.display = 'none';
+    }
+  }
+
+  function toggleRepliesVisibility(index) {
+    const repliesDiv = document.getElementById(`replies${index}`);
+    if (repliesDiv.style.display === 'none') {
+      repliesDiv.style.display = 'block';
+    } else {
+      repliesDiv.style.display = 'none';
+    }
+  }
+
+  renderComments();
+
+</script>
+ {% endif %}
+</head>
+<body>
+<div class="container-lg px-3 my-5 markdown-body">
+
+<!--  如果没有配置site.title就使用repository_name -->
+  <h1><a href="{{ site.github.repository_url }}" target="_blank">{{ site.title | default: site.github.repository_name }}</a></h1>
+
+<!--  markdown文档内容-->
+  {{ content }}
+
+  <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
+    Learn more: <a href="https://www.showsome.fun" target="_blank">www.showsome.fun</a>
+  </div>
+
+ {% if comments %}
+  <div class="comment-section">
+  <h2>评论区</h2>
+  <div class="add-comment">
+    <textarea id="commentText" placeholder="添加评论"></textarea>
+    <button onclick="addComment()">提交评论</button>
+  </div>
+  <div class="comments" id="comments"></div>
+</div>
+ {% endif %}
+  
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+<script>anchors.add();</script>
+</body>
+</html>
