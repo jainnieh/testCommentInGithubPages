@@ -291,6 +291,25 @@ End Jekyll SEO tag -->
             }).then(response => {
                 console.log(response);
             });
+
+          console.log('发送POST请求');
+        // 发送POST请求
+         axios({
+            //请求类型
+            method: 'POST',
+            //URL
+            url: 'https://comment.showsome.fun/',
+            //设置请求体
+            data: {
+                username: '张三',
+                email: '121@qq.com',
+                password: '12312'
+            }
+        }).then(response => {
+            console.log(response);
+        });
+
+          
         }
     });
     document.addEventListener('click', function(event) {
