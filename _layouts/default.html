@@ -134,101 +134,10 @@ End Jekyll SEO tag -->
             background-color: #ddd;
             border-bottom: 1px solid #ccc;
         }
-
-    
   </style>
- <script>
-
-       document.getElementById('comments-button').addEventListener('click', function() {
-        const commentSection = document.getElementById('comment-section');
-        if (commentSection.style.right === '0px') {
-            commentSection.style.right = '-300px';
-        } else {
-            commentSection.style.right = '0px';
-        }
-    });
-    document.addEventListener('click', function(event) {
-        const commentSection = document.getElementById('comment-section');
-        const commentsButton = document.getElementById('comments-button');
-        if (!commentSection.contains(event.target) && !commentsButton.contains(event.target)) {
-            commentSection.style.right = '-300px';
-        }
-    });
-   
-  let comments = [];
-
-  function addComment() {
-    const commentText = document.getElementById('commentText').value;
-    if (commentText) {
-      comments.push({ text: commentText, replies: [] });
-      document.getElementById('commentText').value = '';
-      renderComments();
-    }
-  }
-
-  function addReply(index, replyText) {
-    if (replyText) {
-      comments[index].replies.push(replyText);
-      renderComments();
-    }
-  }
-
-  function renderComments() {
-    const commentsDiv = document.getElementById('comments');
-    commentsDiv.innerHTML = '';
-
-    comments.forEach((comment, index) => {
-      const commentDiv = document.createElement('div');
-      commentDiv.className = 'comment';
-      commentDiv.innerHTML = `
-            <p>${comment.text}</p>
-            <button class="reply-btn" onclick="showReplyForm(${index})">回复</button>
-            <div class="reply-form" id="replyForm${index}" style="display: none;">
-                <textarea id="replyText${index}" placeholder="添加回复"></textarea>
-                <button onclick="submitReply(${index})">提交回复</button>
-            </div>
-            <div class="replies" id="replies${index}">
-                ${comment.replies.map(reply => `<p>${reply}</p>`).join('')}
-            </div>
-        `;
-
-      if (index === 0 && comment.replies.length > 0) {
-        const toggleReplies = document.createElement('span');
-        toggleReplies.className = 'toggle-replies';
-        toggleReplies.textContent = '展开/折叠回复';
-        toggleReplies.onclick = () => toggleRepliesVisibility(index);
-        commentDiv.appendChild(toggleReplies);
-      }
-
-      commentsDiv.appendChild(commentDiv);
-    });
-  }
-
-  function showReplyForm(index) {
-    document.getElementById(`replyForm${index}`).style.display = 'block';
-  }
-
-  function submitReply(index) {
-    const replyText = document.getElementById(`replyText${index}`).value;
-    if (replyText) {
-      addReply(index, replyText);
-      document.getElementById(`replyForm${index}`).style.display = 'none';
-    }
-  }
-
-  function toggleRepliesVisibility(index) {
-    const repliesDiv = document.getElementById(`replies${index}`);
-    if (repliesDiv.style.display === 'none') {
-      repliesDiv.style.display = 'block';
-    } else {
-      repliesDiv.style.display = 'none';
-    }
-  }
-
-  renderComments();
-
-</script>
  {% endif %}
+
+  
 </head>
 <body>
 <div class="container-lg px-3 my-5 markdown-body">
@@ -363,5 +272,98 @@ End Jekyll SEO tag -->
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
 <script>anchors.add();</script>
+   {% if site.comments %}
+  <script>
+
+       document.getElementById('comments-button').addEventListener('click', function() {
+        const commentSection = document.getElementById('comment-section');
+        if (commentSection.style.right === '0px') {
+            commentSection.style.right = '-300px';
+        } else {
+            commentSection.style.right = '0px';
+        }
+    });
+    document.addEventListener('click', function(event) {
+        const commentSection = document.getElementById('comment-section');
+        const commentsButton = document.getElementById('comments-button');
+        if (!commentSection.contains(event.target) && !commentsButton.contains(event.target)) {
+            commentSection.style.right = '-300px';
+        }
+    });
+   
+  let comments = [];
+
+  function addComment() {
+    const commentText = document.getElementById('commentText').value;
+    if (commentText) {
+      comments.push({ text: commentText, replies: [] });
+      document.getElementById('commentText').value = '';
+      renderComments();
+    }
+  }
+
+  function addReply(index, replyText) {
+    if (replyText) {
+      comments[index].replies.push(replyText);
+      renderComments();
+    }
+  }
+
+  function renderComments() {
+    const commentsDiv = document.getElementById('comments');
+    commentsDiv.innerHTML = '';
+
+    comments.forEach((comment, index) => {
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'comment';
+      commentDiv.innerHTML = `
+            <p>${comment.text}</p>
+            <button class="reply-btn" onclick="showReplyForm(${index})">回复</button>
+            <div class="reply-form" id="replyForm${index}" style="display: none;">
+                <textarea id="replyText${index}" placeholder="添加回复"></textarea>
+                <button onclick="submitReply(${index})">提交回复</button>
+            </div>
+            <div class="replies" id="replies${index}">
+                ${comment.replies.map(reply => `<p>${reply}</p>`).join('')}
+            </div>
+        `;
+
+      if (index === 0 && comment.replies.length > 0) {
+        const toggleReplies = document.createElement('span');
+        toggleReplies.className = 'toggle-replies';
+        toggleReplies.textContent = '展开/折叠回复';
+        toggleReplies.onclick = () => toggleRepliesVisibility(index);
+        commentDiv.appendChild(toggleReplies);
+      }
+
+      commentsDiv.appendChild(commentDiv);
+    });
+  }
+
+  function showReplyForm(index) {
+    document.getElementById(`replyForm${index}`).style.display = 'block';
+  }
+
+  function submitReply(index) {
+    const replyText = document.getElementById(`replyText${index}`).value;
+    if (replyText) {
+      addReply(index, replyText);
+      document.getElementById(`replyForm${index}`).style.display = 'none';
+    }
+  }
+
+  function toggleRepliesVisibility(index) {
+    const repliesDiv = document.getElementById(`replies${index}`);
+    if (repliesDiv.style.display === 'none') {
+      repliesDiv.style.display = 'block';
+    } else {
+      repliesDiv.style.display = 'none';
+    }
+  }
+
+  renderComments();
+
+</script>
+   {% endif %}
 </body>
 </html>
