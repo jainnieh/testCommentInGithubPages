@@ -101,8 +101,60 @@ End Jekyll SEO tag -->
       margin-top: 10px;
     }
 
+
+#comments-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        #comment-section {
+            position: fixed;
+            top: 0;
+            right: -300px; /* Initially hidden */
+            width: 300px;
+            height: 100%;
+            background-color: #90f3e6;
+            border-left: 1px solid #ccc;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 1001; /* Ensure it appears above the main content and prevent be blocked by button */
+        }
+
+        .comments-container {
+            padding: 20px;
+        }
+
+        #comment-section h2 {
+            padding: 10px 20px;
+            margin: 0;
+            background-color: #ddd;
+            border-bottom: 1px solid #ccc;
+        }
+
+    
   </style>
  <script>
+
+       document.getElementById('comments-button').addEventListener('click', function() {
+        const commentSection = document.getElementById('comment-section');
+        if (commentSection.style.right === '0px') {
+            commentSection.style.right = '-300px';
+        } else {
+            commentSection.style.right = '0px';
+        }
+    });
+    document.addEventListener('click', function(event) {
+        const commentSection = document.getElementById('comment-section');
+        const commentsButton = document.getElementById('comments-button');
+        if (!commentSection.contains(event.target) && !commentsButton.contains(event.target)) {
+            commentSection.style.right = '-300px';
+        }
+    });
+   
   let comments = [];
 
   function addComment() {
@@ -187,6 +239,112 @@ End Jekyll SEO tag -->
 <!--  markdown文档内容-->
   {{ content }}
 
+
+<button id="comments-button">Comments</button>
+<div id="comment-section">
+    <h2>Comments</h2>
+    <div class="comments-container">
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <!-- Add more comments as needed -->
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p><p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p><p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p><p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p><p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p><p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+    </div>
+</div>
+  
   <div class="footer border-top border-gray-light mt-5 pt-3 text-right text-gray">
     Learn more: <a href="https://www.showsome.fun" target="_blank">www.showsome.fun</a>
   </div>
