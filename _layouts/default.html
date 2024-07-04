@@ -268,9 +268,19 @@ End Jekyll SEO tag -->
   <div class="comments" id="comments"></div>
 </div>
  {% endif %}
+
+  <h1>WebSocket Comment Example</h1>
+<div>
+    <textarea id="comment-text" placeholder="输入评论..."></textarea>
+    <button onclick="submitComment()">提交评论</button>
+</div>
+<div id="comments-container"></div>
+
   
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>anchors.add();</script>
    {% if site.comments %}
   <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -392,6 +402,58 @@ End Jekyll SEO tag -->
 
   renderComments();
 
+
+
+    // websocket test
+    
+        let stompClient = null;
+
+        function connect() {
+            // let socket = new SockJS('http://localhost:7403/ws'); // 使用 HTTP 地址
+            let socket = new SockJS('http://tree.showsome.fun:7403/ws'); // 使用 HTTP 地址
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/comments', function (commentResponse) {
+                    console.log("websocket msg")
+                    let processing = document.getElementById("processing");
+
+                    processing.parentNode.removeChild(processing);
+                    showComment(JSON.parse(commentResponse.body));
+                });
+            });
+        }
+
+        function submitComment() {
+            let commentText = document.getElementById("comment-text").value; // 获取评论文本
+            // fetch('http://localhost:7403/api/comments', {
+            fetch('http://tree.showsome.fun:7403/api/comments', {
+                method: 'POST',
+                credentials: 'include', // 包含凭据（cookies, 授权头等）
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({content: commentText})
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Comment submitted, waiting for processing");
+                    showComment({id: response.id, content: response.content, status: '处理中...'});
+                });
+        }
+
+        function showComment(comment) {
+            let commentsContainer = document.getElementById("comments-container");
+            let p = document.createElement("p");
+            p.id = "processing";
+            p.textContent = "评论 " + comment.id + ": " + comment.content + " [" + (comment.ipInfo || comment.status) + "]";
+            commentsContainer.appendChild(p);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            connect(); // 页面加载完成后建立 WebSocket 连接
+        });
+    
 </script>
    {% endif %}
 </body>
