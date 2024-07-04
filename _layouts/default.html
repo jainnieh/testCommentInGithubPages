@@ -410,7 +410,7 @@ End Jekyll SEO tag -->
 
         function connect() {
             // let socket = new SockJS('http://localhost:7403/ws'); // 使用 HTTP 地址
-            let socket = new SockJS('http://tree.showsome.fun:7403/ws'); // 使用 HTTP 地址
+            let socket = new SockJS('https://tree.showsome.fun:7403/ws'); // 使用 HTTP 地址
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
@@ -427,7 +427,7 @@ End Jekyll SEO tag -->
         function submitComment() {
             let commentText = document.getElementById("comment-text").value; // 获取评论文本
             // fetch('http://localhost:7403/api/comments', {
-            fetch('http://tree.showsome.fun:7403/api/comments', {
+            fetch('https://tree.showsome.fun:7403/api/comments', {
                 method: 'POST',
                 credentials: 'include', // 包含凭据（cookies, 授权头等）
                 headers: {
